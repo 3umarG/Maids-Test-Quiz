@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: postgres:14-alpine
+    container_name: books_library_db_cont
+    restart: always
+    # use different exposed port from "5432" to anything else because "5432" is desired for the pgAdmin
+    ports:
+      - "2222:5432"
+
+    # change the volume place everytime you -up- the same docker compose
+    # or delete the volume everytime you -up- it
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data12
+    environment:
+      - POSTGRES_DB=library_db
+      - POSTGRES_USER=maids
+      - POSTGRES_PASSWORD=maids

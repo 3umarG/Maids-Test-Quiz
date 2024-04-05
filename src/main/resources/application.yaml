@@ -1,0 +1,34 @@
+server:
+  port: 7777
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:2222/library_db
+    username: maids
+    password: maids
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+api:
+  version: /api/v1
+
+jwt:
+  key: 7ab42c0c898fa0c4612166e5f829e935e2ee3084b329bd15579e525844cc3593
+  access-token-expiration: 86400000
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  api-docs:
+    enabled: true
