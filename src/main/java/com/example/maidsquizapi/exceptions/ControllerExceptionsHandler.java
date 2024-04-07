@@ -78,29 +78,6 @@ public class ControllerExceptionsHandler {
         return handleGlobalException(ex);
     }
 
-//    @ExceptionHandler
-//    public ResponseEntity<ApiCustomResponse> handleExceptions(Exception globalException) {
-//        if (globalException instanceof CustomException customException) {
-//            return handleCustomException(customException);
-//        } else if (globalException instanceof MethodArgumentNotValidException methodArgumentNotValidException) {
-//            return handleValidationException(methodArgumentNotValidException);
-//        } else if (globalException instanceof AuthenticationException) {
-//            String message = "You are UN_AUTHORIZED of accessing this resource with exception : " + globalException.getMessage();
-//            return handleAuthenticationException(message);
-//        } else if (globalException instanceof AccessDeniedException) {
-//            return handleAccessDeniedException();
-//        } else if (globalException instanceof ExpiredJwtException) {
-//            var message = "JWT Token is already expired ...!!";
-//            return handleAuthenticationException(message);
-//        } else if (globalException instanceof SignatureException || globalException instanceof MalformedJwtException) {
-//            String message = globalException.getMessage() != null ? globalException.getMessage() : "JWT Token has not correct format ...!!";
-//            return handleAuthenticationException(message);
-//        } else {
-//            return handleGlobalException(globalException);
-//        }
-//    }
-
-
     private static ResponseEntity<ApiCustomResponse> handleGlobalException(Exception globalException) {
         String errorMessage = "SERVER_ERROR_EXCEPTION , with cause : " + globalException.getMessage();
 
