@@ -1,4 +1,4 @@
-package com.example.maidsquizapi.shared;
+package com.example.maidsquizapi.shared.response;
 
 public record ApiCustomResponse(
         String message,
