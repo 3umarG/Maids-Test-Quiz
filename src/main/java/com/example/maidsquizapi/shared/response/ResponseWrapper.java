@@ -1,4 +1,4 @@
-package com.example.maidsquizapi.shared;
+package com.example.maidsquizapi.shared.response;
 
 import org.springframework.http.ResponseEntity;
 
@@ -21,6 +21,15 @@ public class ResponseWrapper {
                 data,
                 null,
                 200,
+                true
+        );
+    }
+
+    public static ResponseWrapper created(Object data) {
+        return new ResponseWrapper(
+                data,
+                null,
+                201,
                 true
         );
     }
