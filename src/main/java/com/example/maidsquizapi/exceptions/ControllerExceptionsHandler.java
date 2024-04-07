@@ -1,8 +1,8 @@
 package com.example.maidsquizapi.exceptions;
 
 
-import com.example.maidsquizapi.shared.ApiCustomResponse;
-import com.example.maidsquizapi.shared.ResponseWrapper;
+import com.example.maidsquizapi.shared.response.ApiCustomResponse;
+import com.example.maidsquizapi.shared.response.ResponseWrapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +33,13 @@ public class ControllerExceptionsHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ApiCustomResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         return handleValidationException(ex);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ApiCustomResponse> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        var message = ex.getMessage();
+        return handleAuthenticationException(message);
     }
 
     @ExceptionHandler(AuthenticationException.class)
@@ -66,7 +74,7 @@ public class ControllerExceptionsHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<ApiCustomResponse> handleGlobalExceptions(Exception ex){
+    public ResponseEntity<ApiCustomResponse> handleGlobalExceptions(Exception ex) {
         return handleGlobalException(ex);
     }
 
