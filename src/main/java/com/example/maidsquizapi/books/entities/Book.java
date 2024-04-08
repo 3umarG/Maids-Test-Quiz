@@ -46,4 +46,12 @@ public class Book {
         this.publishedOn = publishedOn;
         this.isbnNumber = isbnNumber;
     }
+
+    public Book(Integer id, String title, String author, LocalDate publishedOn, String isbnNumber) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.publishedOn = publishedOn;
+        this.isbnNumber = isbnNumber;
+    }
 }
