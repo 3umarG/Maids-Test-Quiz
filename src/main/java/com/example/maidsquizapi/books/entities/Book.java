@@ -1,6 +1,7 @@
 package com.example.maidsquizapi.books.entities;
 
 import com.example.maidsquizapi.borrowing.entities.BorrowedBook;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,7 @@ public class Book {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "book")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Set<BorrowedBook> borrowedBooks = new HashSet<>();
 
     public Book(String title, String author, LocalDate publishedOn, String isbnNumber) {
