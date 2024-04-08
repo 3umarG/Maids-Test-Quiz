@@ -7,6 +7,7 @@ import com.example.maidsquizapi.shared.exceptions.AlreadyUsedISBNException;
 import com.example.maidsquizapi.shared.exceptions.NotFoundCustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class BooksService {
         return booksRepository.findById(id).orElseThrow(() -> new NotFoundCustomException("Not found book with ID : " + id));
     }
 
+    @Transactional
     public Book addBook(BookRequestDto body) {
         if (booksRepository.existsByIsbnNumber(body.isbnNumber())){
             throw new AlreadyUsedISBNException(body.isbnNumber());
@@ -38,6 +40,7 @@ public class BooksService {
         return bookEntity;
     }
 
+    @Transactional
     public Book updateBook(Integer id, BookRequestDto body) {
         var book = findBookByIdOrThrowNotFound(id);
 
@@ -55,6 +58,7 @@ public class BooksService {
         return book;
     }
 
+    @Transactional
     public Book deleteBookById(Integer id) {
         var book = findBookByIdOrThrowNotFound(id);
 

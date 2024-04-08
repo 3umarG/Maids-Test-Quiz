@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -49,6 +50,8 @@ public class PatronsService {
                 new NotFoundCustomException("Not Found Patron with ID : " + id));
     }
 
+
+    @Transactional
     public AuthResponseDto login(LoginRequestDto dto) {
         var patron = patronsRepository.findByEmail(dto.email()).
                 orElseThrow(() -> new UsernameNotFoundException("User with Email : " + dto.email() + ", not found !!"));
@@ -88,6 +91,8 @@ public class PatronsService {
         );
     }
 
+
+    @Transactional
     public PatronResponseDto register(SignUpRequestDto dto) {
         if (patronsRepository.existsByEmailOrPhone(dto.email(), dto.phone())) {
             throw new AlreadyUsedCredentialsException("Already used email or phone number ..!!");
@@ -106,6 +111,8 @@ public class PatronsService {
         return patron;
     }
 
+
+    @Transactional
     public PatronResponseDto updatePatronById(Integer id, @Valid UpdatePatronRequestDto dto) {
         var patron = findPatronByIdOrThrowNotFound(id);
 
@@ -117,6 +124,8 @@ public class PatronsService {
         return convertPatronEntityToPatronResponseDto(patron);
     }
 
+
+    @Transactional
     public PatronResponseDto deletePatronById(Integer id) {
         var patron = findPatronByIdOrThrowNotFound(id);
 

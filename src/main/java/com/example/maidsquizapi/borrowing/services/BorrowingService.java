@@ -11,6 +11,7 @@ import com.example.maidsquizapi.patrons.entities.Patron;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -22,6 +23,7 @@ public class BorrowingService {
     private final BooksRepository booksService;
 
 
+    @Transactional
     public BorrowedBookResponseDto borrowBook(Integer bookId) {
 
         var patron = (Patron) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -51,6 +53,8 @@ public class BorrowingService {
         );
     }
 
+
+    @Transactional
     public BorrowedBookResponseDto returnBook(Integer bookId) {
         var patron = (Patron) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
