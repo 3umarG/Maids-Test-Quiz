@@ -1,8 +1,8 @@
 package com.example.maidsquizapi.patrons.services;
 
-import com.example.maidsquizapi.exceptions.AlreadyUsedCredentialsException;
-import com.example.maidsquizapi.exceptions.NotFoundCustomException;
-import com.example.maidsquizapi.exceptions.NotMatchedPasswordException;
+import com.example.maidsquizapi.shared.exceptions.AlreadyUsedCredentialsException;
+import com.example.maidsquizapi.shared.exceptions.NotFoundCustomException;
+import com.example.maidsquizapi.shared.exceptions.NotMatchedPasswordException;
 import com.example.maidsquizapi.patrons.DAO.PatronsRepository;
 import com.example.maidsquizapi.patrons.DTOs.response.JwtTokenDto;
 import com.example.maidsquizapi.patrons.DTOs.request.LoginRequestDto;

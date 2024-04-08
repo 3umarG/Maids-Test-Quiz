@@ -3,8 +3,8 @@ package com.example.maidsquizapi.books.services;
 import com.example.maidsquizapi.books.DAO.BooksRepository;
 import com.example.maidsquizapi.books.DTOs.BookRequestDto;
 import com.example.maidsquizapi.books.entities.Book;
-import com.example.maidsquizapi.exceptions.AlreadyUsedISBNException;
-import com.example.maidsquizapi.exceptions.NotFoundCustomException;
+import com.example.maidsquizapi.shared.exceptions.AlreadyUsedISBNException;
+import com.example.maidsquizapi.shared.exceptions.NotFoundCustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

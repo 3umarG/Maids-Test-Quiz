@@ -1,6 +1,6 @@
 package com.example.maidsquizapi.patrons.security.filters;
 
-import com.example.maidsquizapi.exceptions.NotFoundAuthorizationTokenException;
+import com.example.maidsquizapi.shared.exceptions.NotFoundAuthorizationTokenException;
 import com.example.maidsquizapi.patrons.security.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

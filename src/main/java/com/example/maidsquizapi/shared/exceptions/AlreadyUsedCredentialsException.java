@@ -1,4 +1,4 @@
-package com.example.maidsquizapi.exceptions;
+package com.example.maidsquizapi.shared.exceptions;
 
 public class AlreadyUsedCredentialsException extends CustomException{
     public AlreadyUsedCredentialsException(String message) {
