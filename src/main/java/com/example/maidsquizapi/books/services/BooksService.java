@@ -6,7 +6,7 @@ import com.example.maidsquizapi.books.entities.Book;
 import com.example.maidsquizapi.shared.exceptions.AlreadyUsedISBNException;
 import com.example.maidsquizapi.shared.exceptions.NotFoundCustomException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +33,7 @@ public class BooksService {
     }
 
     @Transactional
+    @CacheEvict(value = "books", allEntries = true)
     public Book addBook(BookRequestDto body) {
         if (booksRepository.existsByIsbnNumber(body.isbnNumber())) {
             throw new AlreadyUsedISBNException(body.isbnNumber());
@@ -41,12 +42,11 @@ public class BooksService {
         var bookEntity = body.toBook();
         bookEntity = booksRepository.save(bookEntity);
 
-        refreshCash();
-
         return bookEntity;
     }
 
     @Transactional
+    @CacheEvict(value = "books", allEntries = true)
     public Book updateBook(Integer id, BookRequestDto body) {
         var book = findBookByIdOrThrowNotFound(id);
 
@@ -61,24 +61,16 @@ public class BooksService {
 
         book = booksRepository.save(book);
 
-        refreshCash();
-
         return book;
     }
 
     @Transactional
+    @CacheEvict(value = "books", allEntries = true)
     public Book deleteBookById(Integer id) {
         var book = findBookByIdOrThrowNotFound(id);
 
         booksRepository.delete(book);
 
-        refreshCash();
-
         return book;
-    }
-
-    @CachePut("books")
-    public void refreshCash() {
-        booksRepository.findAll();
     }
 }
