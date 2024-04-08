@@ -1,13 +1,18 @@
 package com.example.maidsquizapi.books.entities;
 
+import com.example.maidsquizapi.borrowing.entities.BorrowedBook;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,11 +30,15 @@ public class Book {
 
     private String author;
 
-    @Column(name = "published_on",columnDefinition = "DATE")
+    @Column(name = "published_on", columnDefinition = "DATE")
     private LocalDate publishedOn;
 
-    @Column(length = 20,unique = true)
+    @Column(length = 20, unique = true)
     private String isbnNumber;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "book")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<BorrowedBook> borrowedBooks = new HashSet<>();
 
     public Book(String title, String author, LocalDate publishedOn, String isbnNumber) {
         this.title = title;

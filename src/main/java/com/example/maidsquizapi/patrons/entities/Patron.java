@@ -1,15 +1,20 @@
 package com.example.maidsquizapi.patrons.entities;
 
+import com.example.maidsquizapi.borrowing.entities.BorrowedBook;
 import com.example.maidsquizapi.patrons.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "patrons")
@@ -31,6 +36,10 @@ public class Patron implements UserDetails {
 
     @Column(unique = true)
     private String email;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "patron")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<BorrowedBook> borrowedBooks = new HashSet<>();
 
     @JsonIgnore
     private String hashedPassword;
