@@ -6,6 +6,8 @@ import com.example.maidsquizapi.books.entities.Book;
 import com.example.maidsquizapi.shared.exceptions.AlreadyUsedISBNException;
 import com.example.maidsquizapi.shared.exceptions.NotFoundCustomException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +18,12 @@ import java.util.List;
 public class BooksService {
     private final BooksRepository booksRepository;
 
-
+    @Cacheable("books")
     public List<Book> getBooks() {
         return booksRepository.findAll();
     }
 
+    @Cacheable(value = "books", key = "#id")
     public Book getBookById(Integer id) {
         return findBookByIdOrThrowNotFound(id);
     }
@@ -31,12 +34,15 @@ public class BooksService {
 
     @Transactional
     public Book addBook(BookRequestDto body) {
-        if (booksRepository.existsByIsbnNumber(body.isbnNumber())){
+        if (booksRepository.existsByIsbnNumber(body.isbnNumber())) {
             throw new AlreadyUsedISBNException(body.isbnNumber());
         }
 
         var bookEntity = body.toBook();
         bookEntity = booksRepository.save(bookEntity);
+
+        refreshCash();
+
         return bookEntity;
     }
 
@@ -44,7 +50,7 @@ public class BooksService {
     public Book updateBook(Integer id, BookRequestDto body) {
         var book = findBookByIdOrThrowNotFound(id);
 
-        if (booksRepository.existsByIsbnNumber(body.isbnNumber())){
+        if (booksRepository.existsByIsbnNumber(body.isbnNumber())) {
             throw new AlreadyUsedISBNException(body.isbnNumber());
         }
 
@@ -55,6 +61,8 @@ public class BooksService {
 
         book = booksRepository.save(book);
 
+        refreshCash();
+
         return book;
     }
 
@@ -64,6 +72,13 @@ public class BooksService {
 
         booksRepository.delete(book);
 
+        refreshCash();
+
         return book;
+    }
+
+    @CachePut("books")
+    public void refreshCash() {
+        booksRepository.findAll();
     }
 }
