@@ -2,8 +2,13 @@ server:
   port: 7777
 
 spring:
-  profiles:
-    active: oauth
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Iv1.22a72f752925554a
+            client-secret: 237c87b9bd31671e49e9df93eb158707ed49a99b
   datasource:
     url: jdbc:postgresql://localhost:2222/library_db
     username: maids
