@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: oauth
+    active: default
   datasource:
     url: jdbc:postgresql://localhost:2222/library_db
     username: maids
