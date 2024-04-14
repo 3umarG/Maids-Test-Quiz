@@ -1,5 +1,6 @@
 package com.example.maidsquizapi.patrons.DTOs.request;
 
+import com.example.maidsquizapi.patrons.enums.UserRole;
 import jakarta.validation.constraints.*;
 
 public record SignUpRequestDto(
@@ -24,6 +25,8 @@ public record SignUpRequestDto(
                 min = 8,
                 message = "password must be at least 8 chars"
         )
-        String password
+        String password,
+
+        UserRole role
 ) {
 }

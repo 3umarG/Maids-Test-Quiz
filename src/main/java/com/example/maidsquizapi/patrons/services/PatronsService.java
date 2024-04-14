@@ -104,7 +104,7 @@ public class PatronsService {
 
     private Patron saveUserToDb(SignUpRequestDto dto) {
         var hashedPassword = passwordEncoder.encode(dto.password());
-        var patron = new Patron(dto.name(), dto.phone(), dto.email(), hashedPassword);
+        var patron = new Patron(dto.name(), dto.phone(), dto.email(), hashedPassword, dto.role());
 
         patron = patronsRepository.save(patron);
 
