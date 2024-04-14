@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,13 +23,14 @@ public class PatronsController {
 
     /**
      * ● Patron management endpoints:
-     *      ● GET /api/patrons: Retrieve a list of all patrons.
-     *      ● GET /api/patrons/{id}: Retrieve details of a specific patron by ID.
-     *      ● POST /api/patrons: Add a new patron to the system.
-     *      ● PUT /api/patrons/{id}: Update an existing patron's information.
-     *      ● DELETE /api/patrons/{id}: Remove a patron from the system.
+     * ● GET /api/patrons: Retrieve a list of all patrons.
+     * ● GET /api/patrons/{id}: Retrieve details of a specific patron by ID.
+     * ● POST /api/patrons: Add a new patron to the system.
+     * ● PUT /api/patrons/{id}: Update an existing patron's information.
+     * ● DELETE /api/patrons/{id}: Remove a patron from the system.
      */
     @GetMapping
+    @PreAuthorize("hasAuthority('management:read')")
     public ResponseEntity<ApiCustomResponse> getPatrons() {
         var result = service.getPatrons();
         return ResponseWrapper
@@ -37,6 +39,7 @@ public class PatronsController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('management:read')")
     public ResponseEntity<ApiCustomResponse> getPatronById(@PathVariable Integer id) {
         var result = service.getPatronById(id);
         return ResponseWrapper
@@ -61,6 +64,7 @@ public class PatronsController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('patron:write')")
     public ResponseEntity<ApiCustomResponse> updatePatronInformation(@PathVariable Integer id,
                                                                      @Valid @RequestBody UpdatePatronRequestDto dto) {
         var result = service.updatePatronById(id, dto);
@@ -70,6 +74,7 @@ public class PatronsController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('management:write')")
     public ResponseEntity<ApiCustomResponse> deletePatronInformation(@PathVariable Integer id) {
         var result = service.deletePatronById(id);
         return ResponseWrapper

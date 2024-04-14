@@ -8,12 +8,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.version}/books")
 @Tag(name = "Books Management")
+@PreAuthorize("hasAnyRole('ROLE_PATRON','ROLE_MANAGER')")
 public class BooksController {
 
     private final BooksService booksService;
@@ -28,6 +30,7 @@ public class BooksController {
      */
 
     @GetMapping
+    @PreAuthorize("hasAuthority('patron:read')")
     public ResponseEntity<ApiCustomResponse> getBooks() {
         var result = booksService.getBooks();
         return ResponseWrapper
@@ -36,6 +39,7 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('patron:read')")
     public ResponseEntity<ApiCustomResponse> getBookById(@PathVariable Integer id) {
         var result = booksService.getBookById(id);
         return ResponseWrapper
@@ -44,6 +48,7 @@ public class BooksController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('management:write')")
     public ResponseEntity<ApiCustomResponse> addBook(@Valid @RequestBody BookRequestDto body) {
         var result = booksService.addBook(body);
         return ResponseWrapper
@@ -52,6 +57,7 @@ public class BooksController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('management:write')")
     public ResponseEntity<ApiCustomResponse> updateBookById(@PathVariable Integer id,@Valid @RequestBody BookRequestDto body){
         var result = booksService.updateBook(id,body);
         return ResponseWrapper
@@ -60,6 +66,7 @@ public class BooksController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('management:write')")
     public ResponseEntity<ApiCustomResponse> deleteBookById(@PathVariable Integer id) {
         var result = booksService.deleteBookById(id);
         return ResponseWrapper

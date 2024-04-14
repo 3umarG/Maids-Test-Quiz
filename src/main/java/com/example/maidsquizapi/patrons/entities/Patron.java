@@ -4,16 +4,17 @@ import com.example.maidsquizapi.borrowing.entities.BorrowedBook;
 import com.example.maidsquizapi.patrons.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,7 +23,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Patron implements UserDetails {
 
     @Id
@@ -49,7 +49,7 @@ public class Patron implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return role.getAuthorities();
     }
 
     @Override
@@ -97,4 +97,25 @@ public class Patron implements UserDetails {
         this.hashedPassword = hashedPassword;
         this.role = UserRole.ROLE_PATRON;
     }
+
+    public static Patron createManager(String name, String phone, String email, String hashedPassword) {
+        return new Patron(
+                name,
+                phone,
+                email,
+                hashedPassword,
+                UserRole.ROLE_MANAGER
+        );
+    }
+
+    public static Patron createPatron(String name, String phone, String email, String hashedPassword) {
+        return new Patron(
+                name,
+                phone,
+                email,
+                hashedPassword,
+                UserRole.ROLE_PATRON
+        );
+    }
+
 }
