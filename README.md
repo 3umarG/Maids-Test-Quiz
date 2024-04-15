@@ -13,9 +13,10 @@ This project implements a Library Management System API using Spring Boot. It al
 
 ## Bonus Features (Implemented):
 
-- [X] Security: Basic authentication or JWT-based authorization (configurable)
-- [X] Aspects: Logging method calls, exceptions, and performance metrics using AOP
-- [X] Caching: Caching frequently accessed data (e.g., book details) for improved performance
+- [X] **Security**: Implement basic authentication using JWT with Roles and Permissions based authorization to protect the API endpoints.
+- [X] **Aspects**: Logging method calls, exceptions, and performance metrics using AOP.
+- [X] **Caching**: Caching frequently accessed data (e.g., book details) for improved performance.
+- [X] **CI/CD**: Implement simple pipeline using GitHub Actions to deploy API to Docker Image for every push to _main_ branch.
 
 ## Running the Application:
 
@@ -65,6 +66,6 @@ This project aims to showcase proficiency in building a robust API using Spring 
 - Spring Data JPA
 - RESTful API development
 - Unit testing
-- Bonus: Security, AOP, and caching
+- Bonus: Security, AOP, caching, and CI/CD.
 
 Feel free to explore the codebase and experiment with additional features to further enhance the Library Management System.
